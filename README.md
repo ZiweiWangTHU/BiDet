@@ -1,10 +1,5 @@
 # BiDet
-This is a pytorch implementation for the paper: BiDet: An Efficient Binarized Object Detector, which is in submission to CVPR2020. The code contains training and testing two binarized object detectors, SSD300 and Faster R-CNN, using our BiDet method on two datasets, PASCAL VOC and Microsoft COCO.  
-
-# Brief Introduction to BiDet
-Deep neural networks especially CNNs have been proposed in recently years due to their strong capacity in many kind of tasks like image classification, object detection and segmentation. However, the growingly deeper and larger models require massive computation and storage cost to achieve such performance, limiting their applications on mobile devices. Therefore, binary neural network (BNN) have been proposed to handle such problem, because it can save the storage and computation to nearly 32x and 64x respectively.  
-  
-However, recent research about BNN focus mainly on simple tasks like image classification, while some difficult but useful tasks like object detection are skipped. Besides, directly applying binary networks on object detection results in bad performances, largely because of the low representational capacity of BNN. To tackle such issue, we propose BiDet, a information bottleneck (IB) based method to learn better binarized detection networks, which removes the information redundancy in the intermediate feature maps and fully utilizes the limited power of BNN to detect objects.  
+This is a pytorch implementation for the paper: BiDet: An Efficient Binarized Object Detector, which is in submission to CVPR2020. The code contains training and testing two binarized object detectors, SSD300 and Faster R-CNN, using our BiDet method on two datasets, PASCAL VOC and Microsoft COCO 2014.
 
 # Quick Start
 ## Prerequisites
@@ -16,18 +11,22 @@ However, recent research about BNN focus mainly on simple tasks like image class
 We conduct experiments on PASCAL VOC and Microsoft COCO 2014 datasets.  
 ### PASCAL VOC
 We train our model on the VOC 0712 trainval sets and test it on the VOC 07 test set. For downloading, just run:  
-  
-    sh data/scripts/VOC2007.sh # <directory>
-    sh data/scripts/VOC2012.sh # <directory>
-  
+
+```shell
+sh data/scripts/VOC2007.sh # <directory>
+sh data/scripts/VOC2012.sh # <directory>
+```
+
 Please specify a path to download your data in, or the default path is ~/data/.  
 ### COCO
 We train our model on the COCO 2014 trainval35k subset and evaluate it on minival5k. For downloading, just run:  
-  
-    sh data/scripts/COCO2014.sh
-  
+
+```shell
+sh data/scripts/COCO2014.sh
+```
+
 Also, you can specify a path to save the data.  
-  
+
 After downloading both datasets, please modify file faster_rcnn/lib/datasets/factory.py line 24 and file faster_rcnn/lib/datasets/coco.py line 36 by replacing path/to/dataset with your voc and coco dataset path respectively.  
 
 ## Pretrained Backbone
@@ -38,38 +37,40 @@ Assume you've finished all steps above, you can start using the code easily.
 
 ### SSD
 For training SSD, just run:  
-  
-    $ python ssd/train_bidet_ssd.py --dataset='VOC/COCO' --data_root='path/to/dataset' --basenet='path/to/pretrain_backbone'
-  
+
+```python
+$ python ssd/train_bidet_ssd.py --dataset='VOC/COCO' --data_root='path/to/dataset' --basenet='path/to/pretrain_backbone'
+```
+
 For testing on VOC, just run:  
-  
-    $ python ssd/eval_voc.py --weight_path='path/to/weight' --voc_root='path/to/voc'
-  
+
+```python
+$ python ssd/eval_voc.py --weight_path='path/to/weight' --voc_root='path/to/voc'
+```
+
 For testing on COCO, just run:  
-  
-    $ python ssd/eval_coco.py --weight_path='path/to/weight' --coco_root='path/to/coco'
-  
+
+```python
+$ python ssd/eval_coco.py --weight_path='path/to/weight' --coco_root='path/to/coco'
+```
+
 ### Faster R-CNN
 First you need to compile the cuda implementation for RoIPooling, RoIAlign and NMS. Just do:  
-  
-    cd faster_rcnn/lib
-    python setup.py build develop
-  
+
+```shell
+cd faster_rcnn/lib
+python setup.py build develop
+```
+
 
 For training Faster R-CNN, just run:  
-  
-    $ python faster_rcnn/trainval_net.py --dataset='voc/coco' --data_root='path/to/dataset' --basenet='path/to/pretrain_backbone'
-  
-For testing, run:  
-  
-    $ python test_net.py --dataset='voc/coco' --checkpoint='path/to/weight'
-  
-# Related Work
-Part of the code are borrowed from:  
-[ssd.pytorch](https://github.com/amdegroot/ssd.pytorch)  
-[faster-rcnn.pytorch](https://github.com/jwyang/faster-rcnn.pytorch/tree/pytorch-1.0)  
-Thanks to their great works!  
 
-# Authors
-Ziwei Wang wang-zw18@mails.tsinghua.edu.cn  
-Ziyi Wu wuzy17@mails.tsinghua.edu.cn  
+```python
+$ python faster_rcnn/trainval_net.py --dataset='voc/coco' --data_root='path/to/dataset' --basenet='path/to/pretrain_backbone'
+```
+
+For testing, run:  
+
+```python
+$ python test_net.py --dataset='voc/coco' --checkpoint='path/to/weight'
+```
