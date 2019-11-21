@@ -38,19 +38,19 @@ Assume you've finished all steps above, you can start using the code easily.
 ### SSD
 For training SSD, just run:  
 
-```python
+```shell
 $ python ssd/train_bidet_ssd.py --dataset='VOC/COCO' --data_root='path/to/dataset' --basenet='path/to/pretrain_backbone'
 ```
 
 For testing on VOC, just run:  
 
-```python
+```shell
 $ python ssd/eval_voc.py --weight_path='path/to/weight' --voc_root='path/to/voc'
 ```
 
 For testing on COCO, just run:  
 
-```python
+```shell
 $ python ssd/eval_coco.py --weight_path='path/to/weight' --coco_root='path/to/coco'
 ```
 
@@ -65,12 +65,12 @@ python setup.py build develop
 
 For training Faster R-CNN, just run:  
 
-```python
+```shell
 $ python faster_rcnn/trainval_net.py --dataset='voc/coco' --data_root='path/to/dataset' --basenet='path/to/pretrain_backbone'
 ```
 
 For testing, run:  
 
-```python
+```shell
 $ python test_net.py --dataset='voc/coco' --checkpoint='path/to/weight'
 ```
