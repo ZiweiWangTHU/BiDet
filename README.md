@@ -30,7 +30,7 @@ Also, you can specify a path to save the data.
 After downloading both datasets, please modify file faster_rcnn/lib/datasets/factory.py line 24 and file faster_rcnn/lib/datasets/coco.py line 36 by replacing path/to/dataset with your voc and coco dataset path respectively.  
 
 ## Pretrained Backbone
-The backbones for our BiDet-SSD300 and BiDet-Faster R-CNN are VGG16 and Resnet-18. We pretrain them on the ImageNet dataset. You can download the pretrained weights on: [VGG16](https://drive.google.com/file/d/1K0hJasYqeUnz82FcB2XnCca8vzsLQcBv/view?usp=sharing) and [resnet18](https://drive.google.com/file/d/1SB5oPbGX-MBwjv0QHBbgVRKVpb-3VY00/view?usp=sharing). After downloading them from Google Drive, please put them in ssd/pretrain and faster_rcnn/pretrain respectively.  
+The backbones for our BiDet-SSD300 and BiDet-Faster R-CNN are VGG16 and Resnet-18. We pretrain them on the ImageNet dataset. You can download the pretrained weights on: [VGG16](https://drive.google.com/file/d/1K0hJasYqeUnz82FcB2XnCca8vzsLQcBv/view?usp=sharing) and [ResNet18](https://drive.google.com/file/d/1SB5oPbGX-MBwjv0QHBbgVRKVpb-3VY00/view?usp=sharing). After downloading them from Google Drive, please put them in ssd/pretrain and faster_rcnn/pretrain respectively.  
 
 ## Training and Testing
 Assume you've finished all steps above, you can start using the code easily.  
