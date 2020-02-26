@@ -1,5 +1,5 @@
 # BiDet
-This is a pytorch implementation for the paper: BiDet: An Efficient Binarized Object Detector, which is in submission to CVPR2020. The code contains training and testing two binarized object detectors, SSD300 and Faster R-CNN, using our BiDet method on two datasets, PASCAL VOC and Microsoft COCO 2014.
+This is the official pytorch implementation for paper: *BiDet: An Efficient Binarized Object Detector*, which is accepted by CVPR2020. The code contains training and testing two binarized object detectors, SSD300 and Faster R-CNN, using our BiDet method on two datasets, PASCAL VOC and Microsoft COCO 2014.
 
 # Quick Start
 ## Prerequisites
