@@ -182,6 +182,8 @@ def train():
             if step_index == 0:
                 args.reg_weight = 0.1
                 args.prior_weight = 0.2
+                REGULARIZATION_LOSS_WEIGHT = args.reg_weight
+                PRIOR_LOSS_WEIGHT = args.prior_weight
             step_index += 1
             adjust_learning_rate(optimizer, args.gamma, step_index)
             print("decay lr")
@@ -280,7 +282,7 @@ def train():
                     loss_p += (-1. * log_scores.sum() / float(gt_num))
                     loss_count += 1.
 
-            loss_p /= loss_count
+            loss_p /= (loss_count + 1e-6)
             loss_p *= PRIOR_LOSS_WEIGHT
 
         # Calculate regularization loss on feature maps
