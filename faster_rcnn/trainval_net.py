@@ -338,6 +338,10 @@ if __name__ == '__main__':
                 args.rpn_reg_weight = 0.5
                 args.head_prior_weight = 0.05
                 args.head_reg_weight = 0.02
+                fasterRCNN.rpn_prior_weight = args.rpn_prior_weight
+                fasterRCNN.head_prior_weight = args.head_prior_weight
+                fasterRCNN.head_reg_weight = args.head_reg_weight
+                fasterRCNN.RCNN_rpn.reg_weight = args.rpn_reg_weight
             adjust_learning_rate(optimizer, args.lr_decay_gamma)
             lr *= args.lr_decay_gamma
 
