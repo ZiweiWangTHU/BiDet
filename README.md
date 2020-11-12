@@ -120,6 +120,10 @@ Yes. The training of BNNs is known to be unstable and requires fine-tuning. Plea
 
 We thank the authors of [ssd.pytorch](https://github.com/amdegroot/ssd.pytorch) and [faster-rcnn.pytorch](https://github.com/jwyang/faster-rcnn.pytorch) for opening source their wonderful works. We thank [daquexian](https://github.com/daquexian) for providing his implementation of Bi-Real-Net.
 
+## License
+
+BiDet is released under the MIT License. See the LICENSE file for more details.
+
 ## Contact
 
 If you have any questions about the code, please contact Ziyi Wu wuzy17@mails.tsinghua.edu.cn
