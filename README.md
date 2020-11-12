@@ -4,8 +4,10 @@ This is the official pytorch implementation for paper: [*BiDet: An Efficient Bin
 ## Quick Start
 ### Prerequisites
 - python 3.5+
-- pytorch 0.4.0+
+- pytorch 1.0+
 - other packages include numpy, cv2, matplotlib, pillow, cython, cffi, msgpack, easydict, pyyaml
+
+**Note: **as [this issue](https://github.com/ZiweiWangTHU/BiDet/issues/17#issuecomment-725796486) pointed out, this repo is not compatible with PyTorch 1.7.0+. You can follow that instruction to modify the code and make it runnable using PyTorch 1.7.
 
 ### Dataset Preparation
 We conduct experiments on PASCAL VOC and Microsoft COCO 2014 datasets.  
@@ -88,6 +90,41 @@ Please cite our paper if you find it useful in your research:
 }
 ```
 
+## Frequently Asked Questions
+
+- **What is the difference between BiDet and BiDet (SC)?**
+
+They are two different binary neural networks (BNNs) architectures. As BiDet can be regarded as a training strategy with the IB and sparse object priors loss, we adopt popular BNN methods as our models. BiDet means applying our method to Xnor-Net like architecture, with BN-->BinActiv-->BinConv orders and scaling factors. BiDet (SC) means applying our method to Bi-Real-Net like architecture, with additional shortcuts. **This repo provides implementations of BiDet (SC) for both SSD and Faster R-CNN.**
+
+- **Do you modify the structure of these detection networks?**
+
+For Faster R-CNN with ResNet-18 backbone, we do no modification. **For SSD300 with VGG16 backbone, we restructure it to make it suitable for BNNs.** Please refer to [this issue](https://github.com/ZiweiWangTHU/BiDet/issues/16) for more details.
+
+- **Is the BiDet detectors fully binarized?**
+
+Yes, **both the backbone and detection heads of BiDet detectors are binarized**. One of the main contributions of our work is that we show FULLY binarized object detectors can still get relatively good performance on large-scale datasets such as PASCAL VOC and COCO.
+
+- **How do you calculate the model parameter size and FLOPs?**
+
+I use an open source [PyTorch libary](https://github.com/Lyken17/pytorch-OpCounter) to do so.
+
+- **Why the saved model weight has much larger size than reported in the paper? Why the weight values are not binarized? How about the inference speed?**
+
+Currently there is no official support for binary operations such as Xnor and bitcount in PyTorch, so all BNN researchers use normal weight (float32) to approximate them by binarization at inference time. That is why model size is large and weight values not binarized. As for the inference speed, this is very important for BNNs, but as I said, PyTorch doesn't have acceleration for these operations, so it will be slow using PyTorch. I recommend you to try some BNN inference libraries, such as [daBNN](https://github.com/JDAI-CV/dabnn). Please refer to [this](https://github.com/ZiweiWangTHU/BiDet/issues/13) and [this issue](https://github.com/ZiweiWangTHU/BiDet/issues/1) for more details.
+
+- **The training is not stable.**
+
+Yes. The training of BNNs is known to be unstable and requires fine-tuning. Please refer to [this issue](https://github.com/ZiweiWangTHU/BiDet/issues/8) for more detailed discussions.
+
+## Acknowledgement
+
+We thank the authors of [ssd.pytorch](https://github.com/amdegroot/ssd.pytorch) and [faster-rcnn.pytorch](https://github.com/jwyang/faster-rcnn.pytorch) for opening source their wonderful works. We thank [daquexian](https://github.com/daquexian) for providing his implementation of Bi-Real-Net.
+
+## License
+
+BiDet is released under the MIT License. See the LICENSE file for more details.
+
 ## Contact
+
 If you have any questions about the code, please contact Ziyi Wu wuzy17@mails.tsinghua.edu.cn
 
