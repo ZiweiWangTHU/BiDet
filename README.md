@@ -4,8 +4,10 @@ This is the official pytorch implementation for paper: [*BiDet: An Efficient Bin
 ## Quick Start
 ### Prerequisites
 - python 3.5+
-- pytorch 0.4.0+
+- pytorch 1.0+
 - other packages include numpy, cv2, matplotlib, pillow, cython, cffi, msgpack, easydict, pyyaml
+
+**Note: **as [this issue](https://github.com/ZiweiWangTHU/BiDet/issues/17#issuecomment-725796486) pointed out, this repo is not compatible with PyTorch 1.7.0+. You can follow that instruction to modify the code and make it runnable using PyTorch 1.7.
 
 ### Dataset Preparation
 We conduct experiments on PASCAL VOC and Microsoft COCO 2014 datasets.  
