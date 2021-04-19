@@ -1,13 +1,15 @@
 # BiDet
 This is the official pytorch implementation for paper: [*BiDet: An Efficient Binarized Object Detector*](https://arxiv.org/abs/2003.03961), which is accepted by CVPR2020. The code contains training and testing two binarized object detectors, SSD300 and Faster R-CNN, using our BiDet method on two datasets, PASCAL VOC and Microsoft COCO 2014.
 
+## Update
+- 2021.1: Our extended version of BiDet is accepted by T-PAMI! We further improve the performance of binary detectors and extend our method to multi model compression methods. Check it out [here](https://ieeexplore.ieee.org/abstract/document/9319565).
+- 2021.4.19: We provide BiDet-SSD300 pretrained weight on Pascal VOC dataset which achieves 66.0% mAP as described in the paper. You can download it [here](https://drive.google.com/file/d/1mURBX-EtoFanp-8wP6-n3u0E6Mq3enkv/view?usp=sharing).
+
 ## Quick Start
 ### Prerequisites
-- python 3.5+
+- python 3.6+
 - pytorch 1.0+
 - other packages include numpy, cv2, matplotlib, pillow, cython, cffi, msgpack, easydict, pyyaml
-
-**Note: **as [this issue](https://github.com/ZiweiWangTHU/BiDet/issues/17#issuecomment-725796486) pointed out, this repo is not compatible with PyTorch 1.7.0+. You can follow that instruction to modify the code and make it runnable using PyTorch 1.7.
 
 ### Dataset Preparation
 We conduct experiments on PASCAL VOC and Microsoft COCO 2014 datasets.  
