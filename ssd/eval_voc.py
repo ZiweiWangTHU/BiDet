@@ -428,7 +428,10 @@ if __name__ == '__main__':
     if args.cuda:
         net = net.cuda()
         cudnn.benchmark = True
-    net.load_state_dict(torch.load(args.weight_path))
+    try:
+        net.load_state_dict(torch.load(args.weight_path))
+    except:
+        net.load_state_dict(torch.load(args.weight_path)['weight'])
     net.eval()
     print('Finished loading model!')
 
@@ -438,4 +441,5 @@ if __name__ == '__main__':
                            VOCAnnotationTransform())
 
     # evaluation
-    test_net(net, dataset)
+    with torch.no_grad():
+        test_net(net, dataset)

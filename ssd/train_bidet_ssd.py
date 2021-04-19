@@ -74,7 +74,7 @@ parser.add_argument('--reg_weight', default=0., type=float,
                     help='regularization loss weight for feature maps')
 parser.add_argument('--prior_weight', default=0., type=float,
                     help='loss weight for N(0, 1) prior')
-parser.add_argument('--sigma', default=0.001, type=float,
+parser.add_argument('--sigma', default=0., type=float,
                     help='scale factor controlling the sample procedure')
 parser.add_argument('--nms_conf_threshold', default=0.03, type=float,
                     help='confidence threshold for nms')
@@ -102,6 +102,7 @@ if not os.path.exists(logs_dir):
 
 
 def train():
+    global REGULARIZATION_LOSS_WEIGHT, PRIOR_LOSS_WEIGHT, NMS_CONF_THRE
     if args.dataset == 'COCO':
         cfg = coco
         dataset = COCODetection(root=args.data_root,
@@ -118,9 +119,16 @@ def train():
     if args.cuda:
         cudnn.benchmark = True
 
+    opt_state_dict = None
     if args.resume:
         print('Resuming training, loading {}...'.format(args.weight_path))
-        ssd_net.load_weights(args.weight_path)
+        try:
+            ssd_net.load_state_dict(torch.load(args.weight_path))
+        except:  # checkpoint
+            print('Extracting from checkpoint')
+            ckp = torch.load(args.weight_path, map_location='cpu')
+            ssd_net.load_state_dict(ckp['weight'])
+            opt_state_dict = ckp['opt']
     else:
         if args.basenet.lower() != 'none':
             vgg_weights = torch.load(args.basenet)
@@ -138,6 +146,12 @@ def train():
                                weight_decay=args.weight_decay)
     else:
         exit(-1)
+    if opt_state_dict is not None:
+        print('Load optimizer state dict!')
+        optimizer.load_state_dict(opt_state_dict)
+        if get_lr(optimizer) != args.lr:
+            adjust_learning_rate(optimizer, args.lr)
+
     optimizer.zero_grad()
     criterion = MultiBoxLoss(cfg['num_classes'], 0.5, True, 0, True, 3, 0.5, False, args.cuda)
 
@@ -179,6 +193,7 @@ def train():
             epoch += 1
 
         if iteration in cfg['lr_steps']:
+            # add our BiDet loss in the after the first lr decay
             if step_index == 0:
                 args.reg_weight = 0.1
                 args.prior_weight = 0.2
@@ -345,7 +360,11 @@ def train():
             print('Saving state, iter:', iteration)
 
             loss_save = loc_loss_save + conf_loss_save + reg_loss_save + prior_loss_save
-            torch.save(net.module.state_dict(), logs_dir + '/model_' + str(iteration) +
+            checkpoint = {
+                'weight': net.module.state_dict(),
+                'opt': optimizer.state_dict()
+            }
+            torch.save(checkpoint, logs_dir + '/model_' + str(iteration) +
                        '_loc_' + str(round(loc_loss_save / 5000., 4)) +
                        '_conf_' + str(round(conf_loss_save / 5000., 4)) +
                        '_reg_' + str(round(reg_loss_save / 5000., 4)) +
@@ -371,15 +390,10 @@ def log_func(tensor):
     return tensor * torch.log(tensor)
 
 
-def adjust_learning_rate(optimizer, gamma, step):
-    """Sets the learning rate to the initial LR decayed by 10 at every
-        specified step
-    # Adapted from PyTorch Imagenet example:
-    # https://github.com/pytorch/examples/blob/master/imagenet/main.py
-    """
-    lr = args.lr * (gamma ** step)
+def adjust_learning_rate(optimizer, new_lr):
+    """Sets the learning rate of optimizer to new_lr."""
     for param_group in optimizer.param_groups:
-        param_group['lr'] = lr
+        param_group['lr'] = new_lr
 
 
 def get_lr(optimizer):
