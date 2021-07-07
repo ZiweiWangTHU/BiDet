@@ -128,5 +128,5 @@ BiDet is released under the MIT License. See the LICENSE file for more details.
 
 ## Contact
 
-If you have any questions about the code, please contact Ziyi Wu wuzy17@mails.tsinghua.edu.cn
+If you have any questions about the code, please contact Ziyi Wu dazitu616@gmail.com
 
